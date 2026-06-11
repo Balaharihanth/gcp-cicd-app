@@ -1,20 +1,17 @@
-# Use Node image (change based on your app)
-FROM node:18
+# Use Python image
+FROM python:3.10
 
 # Set working directory
 WORKDIR /app
 
-# Copy project
+# Copy files
 COPY . .
 
 # Install dependencies
-RUN npm install
-
-# Build app (if React / Angular)
-RUN npm run build
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port
-EXPOSE 3000
+EXPOSE 8080
 
-# Start app
-CMD ["npm", "start"]
+# Run Flask app using Gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
