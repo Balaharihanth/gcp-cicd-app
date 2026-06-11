@@ -1,7 +1,20 @@
-FROM python:3.9-slim
+# Use Node image (change based on your app)
+FROM node:18
+
+# Set working directory
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+# Copy project
 COPY . .
-EXPOSE 8080
-CMD ["python","app.py"]
+
+# Install dependencies
+RUN npm install
+
+# Build app (if React / Angular)
+RUN npm run build
+
+# Expose port
+EXPOSE 3000
+
+# Start app
+CMD ["npm", "start"]
